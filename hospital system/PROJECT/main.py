@@ -8,7 +8,7 @@ import json
 
 local_server= True
 app = Flask(__name__)
-
+app.secret_key='projects'
 login_manager=LoginManager(app)
 login_manager.login_view='login'
 
