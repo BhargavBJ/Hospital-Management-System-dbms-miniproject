@@ -6,12 +6,8 @@ from flask_login import login_user,logout_user,login_manager,LoginManager
 from flask_login import login_required,current_user
 import json
 
-
-
 local_server= True
 app = Flask(__name__)
-app.secret_key='hmsprojects'
-
 
 login_manager=LoginManager(app)
 login_manager.login_view='login'
@@ -69,9 +65,6 @@ class Trigr(db.Model):
     timestamp=db.Column(db.String(50))
 
 
-
-
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -118,12 +111,7 @@ def patient():
 
         query=Patients(email=email,name=name,gender=gender,slot=slot,disease=disease,time=time,date=date,dept=dept,number=number)
         db.session.add(query)
-        db.session.commit()
-        
-
-
-
-
+        db.session.commit()   
         flash("Booking Confirmed","info")
 
 
@@ -185,11 +173,6 @@ def delete(pid):
     flash("Slot Deleted Successful","danger")
     return redirect('/bookings')
 
-
-
-
-
-
 @app.route('/signup',methods=['POST','GET'])
 def signup():
     if request.method == "POST":
@@ -226,11 +209,6 @@ def login():
         else:
             flash("invalid credentials","danger")
             return render_template('login.html')    
-
-
-
-
-
     return render_template('login.html')
 
 @app.route('/logout')
@@ -240,23 +218,19 @@ def logout():
     flash("Logout SuccessFul","warning")
     return redirect(url_for('login'))
 
-
-
 @app.route('/test')
 def test():
     try:
         Test.query.all()
         return 'My database is Connected'
     except:
-        return 'My db is not Connected'
-    
+        return 'My db is not Connected'   
 
 @app.route('/details')
 @login_required
 def details():
     posts=Trigr.query.all()
     return render_template('trigers.html',posts=posts)
-
 
 @app.route('/search',methods=['POST','GET'])
 @login_required
@@ -273,10 +247,4 @@ def search():
             flash("Doctor is Not Available","danger")
     return render_template('index.html')
 
-
-
-
-
-
-app.run(debug=True)    
-
+app.run(debug=True) 
